@@ -1,0 +1,10 @@
+SET obj_payload TO { 'model': str_model, 'max_tokens': '$maxTokens$', 'temperature': num_temperature, 'messages': [] }
+SET obj_message TO { 'role': 'user', 'content': str_userPrompt }
+Variables.AddItemToList Item: obj_message List: list_messages
+SET obj_payload.messages TO list_messages
+Variables.ConvertCustomObjectToJson CustomObject: obj_payload Json=> str_obj_payload
+Text.Replace Text: str_obj_payload TextToFind: $'''\"$maxTokens$\"''' IsRegEx: False IgnoreCase: False ReplaceWith: int_maxTokens ActivateEscapeSequences: False Result=> str_obj_payload
+Web.InvokeWebService.InvokeWebService Url: $'''https://api.openai.com/v1/chat/completions''' Method: Web.Method.Post Accept: $'''application/json''' ContentType: $'''application/json''' CustomHeaders: $'''Authorization: Bearer %str_OpenAIAPIKey%''' RequestBody: str_obj_payload ConnectionTimeout: 30 FollowRedirection: True ClearCookies: False FailOnErrorStatus: False EncodeRequestBody: False UserAgent: $'''Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.21) Gecko/20100312 Firefox/3.6''' Encoding: Web.Encoding.AutoDetect AcceptUntrustedCertificates: False ResponseHeaders=> WebServiceResponseHeaders Response=> WebServiceResponse StatusCode=> StatusCode
+Variables.ConvertJsonToCustomObject Json: WebServiceResponse CustomObject=> obj_webServiceResponse
+SET obj_aiResponse TO obj_webServiceResponse['choices'][0]['message']
+Variables.AddItemToList Item: obj_aiResponse List: list_messages

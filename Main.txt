@@ -1,0 +1,22 @@
+CALL LLMSettings_Claude
+LOOP WHILE ($'''true''') = ($'''true''')
+    Display.InputDialog Title: $'''Send query to AI Chat''' Message: $'''Your message''' InputType: Display.InputType.SingleLine IsTopMost: False UserInput=> str_userPrompt ButtonPressed=> ButtonPressed
+    IF ButtonPressed = $'''Cancel''' THEN
+        Display.ShowMessageDialog.ShowMessage Title: $'''Thank you!''' Message: $'''Thank you for the conversation!''' Icon: Display.Icon.None Buttons: Display.Buttons.OK DefaultButton: Display.DefaultButton.Button1 IsTopMost: False
+        GOTO _End
+    ELSE
+        IF str_AIProvider = $'''Anthropic''' THEN
+            CALL ClaudeAnthropicStandardCall
+            Display.ShowMessageDialog.ShowMessage Title: $'''AI response''' Message: obj_webServiceResponse['content'][0].text Icon: Display.Icon.Information Buttons: Display.Buttons.OK DefaultButton: Display.DefaultButton.Button1 IsTopMost: False
+        ELSE IF str_AIProvider = $'''OpenAI''' THEN
+            CALL OpenAIStandardCall
+            Display.ShowMessageDialog.ShowMessage Title: $'''AI response''' Message: obj_webServiceResponse['choices'][0]['message'].content Icon: Display.Icon.Information Buttons: Display.Buttons.OK DefaultButton: Display.DefaultButton.Button1 IsTopMost: False
+        END
+    END
+END
+LABEL _End
+Display.ShowMessageDialog.ShowMessage Title: $'''Save?''' Message: $'''Do you want to save this conversation?''' Icon: Display.Icon.Question Buttons: Display.Buttons.YesNo DefaultButton: Display.DefaultButton.Button1 IsTopMost: False ButtonPressed=> bt_SaveConversation
+IF bt_SaveConversation = $'''Yes''' THEN
+    CALL SaveConversation
+    Display.ShowMessageDialog.ShowMessage Title: $'''Save''' Message: $'''C:\\Users\\krzys\\OneDrive\\Dokumenty\\AI_conversations_PAD\\%str_AIProvider%_%str_conversationID%.txt''' Icon: Display.Icon.Information Buttons: Display.Buttons.OK DefaultButton: Display.DefaultButton.Button1 IsTopMost: False
+END

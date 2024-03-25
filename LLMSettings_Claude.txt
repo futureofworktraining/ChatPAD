@@ -1,0 +1,7 @@
+SET str_AIProvider TO $'''Anthropic'''
+Variables.CreateNewList List=> list_messages
+SET str_AnthropicAPIKey TO $'''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'''
+SET str_model TO $'''claude-3-haiku-20240307'''
+SET int_maxTokens TO 4000
+SET str_systemPrompt TO $'''You are a helpful assistant'''
+SET num_temperature TO 0.5
