@@ -18,5 +18,5 @@ LABEL _End
 Display.ShowMessageDialog.ShowMessage Title: $'''Save?''' Message: $'''Do you want to save this conversation?''' Icon: Display.Icon.Question Buttons: Display.Buttons.YesNo DefaultButton: Display.DefaultButton.Button1 IsTopMost: False ButtonPressed=> bt_SaveConversation
 IF bt_SaveConversation = $'''Yes''' THEN
     CALL SaveConversation
-    Display.ShowMessageDialog.ShowMessage Title: $'''Save''' Message: $'''C:\\Users\\krzys\\OneDrive\\Dokumenty\\AI_conversations_PAD\\%str_AIProvider%_%str_conversationID%.txt''' Icon: Display.Icon.Information Buttons: Display.Buttons.OK DefaultButton: Display.DefaultButton.Button1 IsTopMost: False
+    Display.ShowMessageDialog.ShowMessage Title: $'''Save''' Message: $'''C:\\Users\\krzys\\OneDrive\\Dokumenty\\AI_conversations_PAD\\%str_currentDateTime%_%str_AIProvider%_%str_conversationID%.json''' Icon: Display.Icon.Information Buttons: Display.Buttons.OK DefaultButton: Display.DefaultButton.Button1 IsTopMost: False
 END

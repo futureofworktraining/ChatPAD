@@ -1,4 +1,4 @@
 Text.Random UseUpperCaseLetters: True UseLowerCaseLetters: True UseDigits: True UseSymbols: False MinimumLength: 6 MaximumLength: 10 RandomText=> str_conversationID
 DateTime.GetCurrentDateTime.Local DateTimeFormat: DateTime.DateTimeFormat.DateAndTime CurrentDateTime=> date_currentDateTime
-Text.ConvertDateTimeToText.FromCustomDateTime DateTime: date_currentDateTime CustomFormat: $'''dd_MM_yyy''' Result=> str_currentDateTime
-File.WriteText File: $'''C:\\Users\\krzys\\OneDrive\\Dokumenty\\AI_conversations_PAD\\%str_currentDateTime%_%str_AIProvider%_%str_conversationID%.txt''' TextToWrite: obj_payload AppendNewLine: False IfFileExists: File.IfFileExists.Overwrite Encoding: File.FileEncoding.Unicode
+Text.ConvertDateTimeToText.FromCustomDateTime DateTime: date_currentDateTime CustomFormat: $'''hh_mm_dd_MM_yyy''' Result=> str_currentDateTime
+File.WriteText File: $'''C:\\Users\\krzys\\OneDrive\\Dokumenty\\AI_conversations_PAD\\%str_currentDateTime%_%str_AIProvider%_%str_conversationID%.json''' TextToWrite: str_obj_payload AppendNewLine: False IfFileExists: File.IfFileExists.Overwrite Encoding: File.FileEncoding.Unicode
