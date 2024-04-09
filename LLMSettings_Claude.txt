@@ -1,6 +1,6 @@
 SET str_AIProvider TO $'''Anthropic'''
 Variables.CreateNewList List=> list_messages
-SET str_AnthropicAPIKey TO $'''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'''
+SET str_AnthropicAPIKey TO $'''sk-ant-api-your-API-Key'''
 SET str_model TO $'''claude-3-haiku-20240307'''
 SET int_maxTokens TO 4000
 SET str_systemPrompt TO $'''You are a helpful assistant'''

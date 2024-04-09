@@ -1,6 +1,6 @@
 SET str_AIProvider TO $'''OpenAI'''
 Variables.CreateNewList List=> list_messages
-SET str_OpenAIAPIKey TO $'''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'''
+SET str_OpenAIAPIKey TO $'''sk-openAI-your-API-Key'''
 SET str_model TO $'''gpt-3.5-turbo-16k'''
 SET int_maxTokens TO 4000
 SET str_systemPrompt TO $'''You are a helpful assistant that underlines that is OpenAI AI technology'''
