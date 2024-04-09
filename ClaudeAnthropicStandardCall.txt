@@ -1,10 +1,9 @@
-SET obj_payload TO { 'model': str_model, 'system': str_systemPrompt, 'max_tokens': '$maxTokens$', 'temperature': num_temperature, 'messages': [] }
 SET obj_message TO { 'role': 'user', 'content': [{ 'type': 'text', 'text': str_userPrompt }] }
 Variables.AddItemToList Item: obj_message List: list_messages
 SET obj_payload.messages TO list_messages
 Variables.ConvertCustomObjectToJson CustomObject: obj_payload Json=> str_obj_payload
 Text.Replace Text: str_obj_payload TextToFind: $'''\"$maxTokens$\"''' IsRegEx: False IgnoreCase: False ReplaceWith: int_maxTokens ActivateEscapeSequences: False Result=> str_obj_payload
-Web.InvokeWebService.InvokeWebService Url: $'''https://api.anthropic.com/v1/messages''' Method: Web.Method.Post Accept: $'''application/json''' ContentType: $'''application/json''' CustomHeaders: $'''x-api-key: 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
+Web.InvokeWebService.InvokeWebService Url: $'''https://api.anthropic.com/v1/messages''' Method: Web.Method.Post Accept: $'''application/json''' ContentType: $'''application/json''' CustomHeaders: $'''x-api-key: %str_AnthropicAPIKey%
 anthropic-version: 2023-06-01''' RequestBody: str_obj_payload ConnectionTimeout: 30 FollowRedirection: True ClearCookies: False FailOnErrorStatus: False EncodeRequestBody: False UserAgent: $'''Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.21) Gecko/20100312 Firefox/3.6''' Encoding: Web.Encoding.utf_8 AcceptUntrustedCertificates: False ResponseHeaders=> WebServiceResponseHeaders Response=> WebServiceResponse StatusCode=> StatusCode
 Variables.ConvertJsonToCustomObject Json: WebServiceResponse CustomObject=> obj_webServiceResponse
 SET obj_aiResponse TO { 'role': 'assistant', 'content': [obj_webServiceResponse['content'][0]] }

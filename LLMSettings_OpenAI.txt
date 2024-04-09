@@ -1,9 +1,10 @@
 SET str_AIProvider TO $'''OpenAI'''
 Variables.CreateNewList List=> list_messages
-SET str_OpenAIAPIKey TO $'''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'''
+SET str_OpenAIAPIKey TO $'''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'''
 SET str_model TO $'''gpt-3.5-turbo-16k'''
 SET int_maxTokens TO 4000
 SET str_systemPrompt TO $'''You are a helpful assistant that underlines that is OpenAI AI technology'''
 SET num_temperature TO 0.5
 SET obj_OpenAISystemMessage TO { 'role': 'system', 'content': str_systemPrompt }
 Variables.AddItemToList Item: obj_OpenAISystemMessage List: list_messages
+SET obj_payload TO { 'model': str_model, 'max_tokens': '$maxTokens$', 'temperature': num_temperature, 'messages': [] }

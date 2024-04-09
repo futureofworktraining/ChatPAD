@@ -1,4 +1,3 @@
-SET obj_payload TO { 'model': str_model, 'max_tokens': '$maxTokens$', 'temperature': num_temperature, 'messages': [] }
 SET obj_message TO { 'role': 'user', 'content': str_userPrompt }
 Variables.AddItemToList Item: obj_message List: list_messages
 SET obj_payload.messages TO list_messages

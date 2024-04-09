@@ -1,15 +1,20 @@
-CALL LLMSettings_Claude
-DISABLE CALL LLMSettings_OpenAI
+DISABLE CALL LLMSettings_Claude
+CALL LLMSettings_OpenAI
+Display.SelectFileDialog.SelectFile Title: $'''Continue Conversation''' IsTopMost: False CheckIfFileExists: False SelectedFile=> SelectedFile ButtonPressed=> SelectFileButtonPressed
+File.ReadTextFromFile.ReadText File: SelectedFile Encoding: File.TextFileEncoding.UTF8 Content=> str_obj_payload
+Variables.ConvertJsonToCustomObject Json: str_obj_payload CustomObject=> obj_payload
+SET obj_payload['max_tokens'] TO $'''$maxTokens$'''
+SET list_messages TO obj_payload['messages']
 LOOP WHILE ($'''true''') = ($'''true''')
     Display.InputDialog Title: $'''Send query to AI Chat''' Message: $'''Your message''' InputType: Display.InputType.SingleLine IsTopMost: False UserInput=> str_userPrompt ButtonPressed=> ButtonPressed
     IF ButtonPressed = $'''Cancel''' THEN
         Display.ShowMessageDialog.ShowMessage Title: $'''Thank you!''' Message: $'''Thank you for the conversation!''' Icon: Display.Icon.None Buttons: Display.Buttons.OK DefaultButton: Display.DefaultButton.Button1 IsTopMost: False
         GOTO _End
     ELSE
-        IF str_AIProvider = $'''Anthropic''' THEN
+        IF StartsWith(obj_payload['model'], $'''claude''', True) THEN
             CALL ClaudeAnthropicStandardCall
             Display.ShowMessageDialog.ShowMessage Title: $'''AI response''' Message: obj_webServiceResponse['content'][0].text Icon: Display.Icon.Information Buttons: Display.Buttons.OK DefaultButton: Display.DefaultButton.Button1 IsTopMost: False
-        ELSE IF str_AIProvider = $'''OpenAI''' THEN
+        ELSE IF StartsWith(obj_payload['model'], $'''gpt''', True) THEN
             CALL OpenAIStandardCall
             Display.ShowMessageDialog.ShowMessage Title: $'''AI response''' Message: obj_webServiceResponse['choices'][0]['message'].content Icon: Display.Icon.Information Buttons: Display.Buttons.OK DefaultButton: Display.DefaultButton.Button1 IsTopMost: False
         END
